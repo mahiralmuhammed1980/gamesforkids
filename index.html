@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>المبرمج الصغير</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@600;700&family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>🧩 المبرمج الصغير</h1>
+  <p>العب وتعلّم البرمجة بالسحب والإفلات</p>
+</div>
+
+<main>
+  <div class="levels-grid" id="levels"></div>
+</main>
+
+<footer>صُنع بحب للأطفال الصغار 💚 — بدون تسجيل دخول وبدون جمع أي بيانات</footer>
+
+<script>
+  var LEVELS = [
+    {
+      id: "html-level-1",
+      title: "بناء صفحتي الأولى",
+      desc: "تعلّم شكل الوسوم في HTML",
+      icon: "🧱",
+      ready: true
+    },
+    {
+      id: "css-level-1",
+      title: "ألوان وأشكال",
+      desc: "قريبًا",
+      icon: "🎨",
+      ready: false
+    },
+    {
+      id: "html-level-2",
+      title: "بناء صفحة كاملة",
+      desc: "قريبًا",
+      icon: "🏗️",
+      ready: false
+    }
+  ];
+
+  var grid = document.getElementById("levels");
+
+  LEVELS.forEach(function (lvl) {
+    var completed = false;
+    try {
+      completed = localStorage.getItem("mubarmij_" + lvl.id + "_completed") === "true";
+    } catch (e) {}
+
+    var el = document.createElement(lvl.ready ? "a" : "div");
+    if (lvl.ready) {
+      el.href = "games/" + lvl.id + "/";
+    }
+    el.className = "level-card" + (lvl.ready ? "" : " locked");
+
+    el.innerHTML =
+      '<div class="badge">' + lvl.icon + "</div>" +
+      "<h2>" + lvl.title + "</h2>" +
+      '<p class="desc">' + (lvl.ready ? lvl.desc : "🔒 " + lvl.desc) + "</p>" +
+      (lvl.ready && completed ? '<div class="star">⭐ مكتمل</div>' : "");
+
+    grid.appendChild(el);
+  });
+</script>
+
+</body>
+</html>

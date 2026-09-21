@@ -39,20 +39,31 @@
     },
     {
       id: "html-level-2",
-      title: "بناء صفحة كاملة",
-      desc: "قريبًا",
-      icon: "🏗️",
-      ready: false
+      title: "صناديق متداخلة",
+      desc: "تعلّم تداخل الوسوم في HTML",
+      icon: "📦",
+      ready: true
     }
   ];
 
   var grid = document.getElementById("levels");
 
-  LEVELS.forEach(function (lvl) {
-    var completed = false;
+  function isLevelCompleted(lvl) {
     try {
-      completed = localStorage.getItem("mubarmij_" + lvl.id + "_completed") === "true";
-    } catch (e) {}
+      if (lvl.id === "html-level-2") {
+        var raw = localStorage.getItem("mbarmij_html_level2_progress");
+        if (!raw) return false;
+        var p = JSON.parse(raw);
+        return !!p["1"] && !!p["2"] && !!p["3"];
+      }
+      return localStorage.getItem("mubarmij_" + lvl.id + "_completed") === "true";
+    } catch (e) {
+      return false;
+    }
+  }
+
+  LEVELS.forEach(function (lvl) {
+    var completed = isLevelCompleted(lvl);
 
     var el = document.createElement(lvl.ready ? "a" : "div");
     if (lvl.ready) {
